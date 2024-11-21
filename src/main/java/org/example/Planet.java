@@ -17,6 +17,9 @@ public class Planet {
     }
 
     public void setId(String id) {
+        if (!id.matches("[A-Z0-9]+")) {
+            throw new IllegalArgumentException("Planet ID must consist only of uppercase Latin letters and digits.");
+        }
         this.id = id;
     }
 
