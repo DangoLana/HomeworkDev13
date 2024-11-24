@@ -1,13 +1,16 @@
 package org.example;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "planets")
 public class Planet {
     @Id
     @Column(nullable = false, unique = true, length = 20)
+    @Pattern(regexp = "^[A-Z0-9]+$", message = "Planet ID must consist only of uppercase Latin letters and digits.")
     private String id;
+
 
     @Column(nullable = false, length = 500)
     private String name;
@@ -17,9 +20,6 @@ public class Planet {
     }
 
     public void setId(String id) {
-        if (!id.matches("[A-Z0-9]+")) {
-            throw new IllegalArgumentException("Planet ID must consist only of uppercase Latin letters and digits.");
-        }
         this.id = id;
     }
 
