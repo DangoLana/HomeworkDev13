@@ -1,15 +1,11 @@
 package org.example;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tickets")
-@Data
-@NoArgsConstructor
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +25,65 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "to_planet_id", nullable = false)
     private Planet toPlanet;
+
+    public Ticket() {
+    }
+
+    public Ticket(LocalDateTime createdAt, Client client, Planet fromPlanet, Planet toPlanet) {
+        this.createdAt = createdAt;
+        this.client = client;
+        this.fromPlanet = fromPlanet;
+        this.toPlanet = toPlanet;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public Planet getFromPlanet() {
+        return fromPlanet;
+    }
+
+    public Planet getToPlanet() {
+        return toPlanet;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public void setFromPlanet(Planet fromPlanet) {
+        this.fromPlanet = fromPlanet;
+    }
+
+    public void setToPlanet(Planet toPlanet) {
+        this.toPlanet = toPlanet;
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", createdAt=" + createdAt +
+                ", client=" + (client != null ? client.getName() : "null") +
+                ", fromPlanet=" + (fromPlanet != null ? fromPlanet.getName() : "null") +
+                ", toPlanet=" + (toPlanet != null ? toPlanet.getName() : "null") +
+                '}';
+    }
 }

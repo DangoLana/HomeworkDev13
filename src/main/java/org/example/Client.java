@@ -1,6 +1,7 @@
 package org.example;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "clients")
@@ -11,6 +12,9 @@ public class Client {
 
     @Column(nullable = false, length = 200)
     private String name;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ticket> tickets;
 
     public Long getId() {
         return id;

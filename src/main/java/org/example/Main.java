@@ -9,37 +9,59 @@ public class Main {
 
         ClientCrudService clientService = new ClientCrudService(sessionFactory);
         PlanetCrudService planetService = new PlanetCrudService(sessionFactory);
+        TicketCrudService ticketService = new TicketCrudService(sessionFactory);
+
 
         System.out.println("Testing ClientCrudService----------------");
 
         Client newClient = clientService.create("Alice");
         System.out.println("Created Client: " + newClient);
 
-        Client fetchedClient = clientService.getById(newClient.getId());
-        System.out.println("Fetched Client: " + fetchedClient);
-
-        Client updatedClient = clientService.update(newClient.getId(), "Alice Updated");
-        System.out.println("Updated Client: " + updatedClient);
-
-        boolean isClientDeleted = clientService.delete(newClient.getId());
-        System.out.println("Client Deleted: " + isClientDeleted);
-
-
         System.out.println("Testing PlanetCrudService------------------");
 
-        Planet newPlanet = planetService.create("EARTH", "Earth");
-        System.out.println("Created Planet: " + newPlanet);
+        Planet earth = planetService.create("EARTH", "Earth");
+        System.out.println("Created Planet: " + earth);
+        Planet mars = planetService.create("MARS", "Mars");
+        System.out.println("Created Planet: " + mars);
 
-        Planet fetchedPlanet = planetService.getById("EARTH");
-        System.out.println("Fetched Planet: " + fetchedPlanet);
+        System.out.println("Testing TicketCrudServiceNull------------------");
 
-        Planet updatedPlanet = planetService.update("EARTH", "Earth Updated");
-        System.out.println("Updated Planet: " + updatedPlanet);
+        try {
+            ticketService.create(null, earth, mars);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
 
-        boolean isPlanetDeleted = planetService.delete("EARTH");
-        System.out.println("Planet Deleted: " + isPlanetDeleted);
+        try {
+            ticketService.create(newClient, null, mars);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            ticketService.create(newClient, earth, null);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+
+        System.out.println("Testing TicketCrudService------------------");
+
+        Ticket newTicket = ticketService.create(newClient, earth, mars);
+        System.out.println("Created Ticket: " + newTicket);
+
+        Ticket fetchedTicket = ticketService.getById(newTicket.getId());
+        System.out.println("Fetched Ticket: " + fetchedTicket);
+
+        Ticket updatedTicket = ticketService.update(newTicket.getId(), mars, earth);
+        System.out.println("Updated Ticket: " + updatedTicket);
+
+        boolean isTicketDeleted = ticketService.delete(newTicket.getId());
+        System.out.println("Ticket Deleted: " + isTicketDeleted);
+
+
+
 
         sessionFactory.close();
     }
 }
-
